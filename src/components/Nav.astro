@@ -1,0 +1,32 @@
+---
+import { SITE } from '../config';
+import { getNav } from '../lib/content';
+
+interface Props {
+  current?: string;
+}
+
+const { current } = Astro.props;
+const items = getNav();
+---
+
+<header class="masthead">
+  <a class="wordmark" href="/">{SITE.wordmark}</a>
+  <nav aria-label="Sections">
+    <ul class="nav__list">
+      {
+        items.map((item) => (
+          <li>
+            <a
+              class="nav__link"
+              href={item.href}
+              aria-current={item.slug === current ? 'page' : undefined}
+            >
+              {item.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>

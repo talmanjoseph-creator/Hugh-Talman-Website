@@ -1,0 +1,19 @@
+{
+  "slug": "about",
+  "title": "About",
+  "order": 6,
+  "portrait": "hugh-portrait.jpg",
+  "bio": [
+    "Hugh Talman has been photographing since the mid-1960s, when he bought a secondhand rangefinder and started working the streets near his first apartment. He has stayed with the same subjects ever since: ordinary weather, ordinary rooms, and the people who happen to be standing in them. The work is unhurried and largely unassigned, made over decades in the places he actually lives and returns to.",
+    "He printed in his own darkroom for forty years and moved to digital capture reluctantly, keeping the same habits of patience and small margins. His photographs have been shown in regional galleries and university spaces, and are held in a handful of private collections. He continues to shoot most weeks."
+  ],
+  "bioNote": "[placeholder — Hugh to replace]",
+  "exhibitions": [
+    { "decade": "1970s", "entries": ["Group show, regional arts center — [placeholder]", "Two-person show, university gallery — [placeholder]"] },
+    { "decade": "1980s", "entries": ["Solo exhibition, city library gallery — [placeholder]"] },
+    { "decade": "1990s", "entries": ["Group show, photographic society annual — [placeholder]", "Work included in a small-press portfolio — [placeholder]"] },
+    { "decade": "2000s", "entries": ["Solo exhibition, community arts space — [placeholder]"] },
+    { "decade": "2010s", "entries": ["Group show, invitational — [placeholder]"] },
+    { "decade": "2020s", "entries": ["Selected work published online — [placeholder]"] }
+  ]
+}

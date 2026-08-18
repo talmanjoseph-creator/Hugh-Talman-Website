@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionPage from '../components/SectionPage.astro';
+import { getGallerySections, type GallerySection } from '../lib/content';
+import { SITE } from '../config';
+
+export function getStaticPaths() {
+  return getGallerySections()
+    .filter((section) => section.href !== '/')
+    .map((section) => ({ params: { slug: section.slug }, props: { section } }));
+}
+
+interface Props {
+  section: GallerySection;
+}
+
+const { section } = Astro.props;
+---
+
+<Base
+  title={section.title}
+  current={section.slug}
+  description={`Photographs by ${SITE.name} — ${section.title}.`}
+>
+  <SectionPage section={section} />
+</Base>

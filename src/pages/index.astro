@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionPage from '../components/SectionPage.astro';
+import { getGallerySections } from '../lib/content';
+import { SITE } from '../config';
+
+const section = getGallerySections().find((entry) => entry.href === '/');
+if (!section) throw new Error('No section is mapped to the home page (expected slug "selected-work").');
+---
+
+<Base title={SITE.name} current={section.slug} description={SITE.description}>
+  <SectionPage section={section} />
+</Base>

@@ -1,0 +1,31 @@
+---
+import { frameCountSummary } from '../lib/content';
+
+const summary = frameCountSummary();
+---
+
+<div class="banner" data-banner>
+  <div class="banner__inner">
+    <p style="margin:0">
+      Placeholder site — grey frames show where photos will go. Frame counts: {summary}.
+    </p>
+    <button type="button" class="banner__dismiss" data-banner-dismiss>Dismiss</button>
+  </div>
+</div>
+
+<script is:inline>
+  // Runs inline so a previously dismissed banner never flashes on the next page.
+  (function () {
+    var banner = document.querySelector('[data-banner]');
+    if (!banner) return;
+    try {
+      if (localStorage.getItem('ht-banner-dismissed') === '1') banner.hidden = true;
+    } catch (e) {}
+    banner.querySelector('[data-banner-dismiss]').addEventListener('click', function () {
+      banner.hidden = true;
+      try {
+        localStorage.setItem('ht-banner-dismissed', '1');
+      } catch (e) {}
+    });
+  })();
+</script>

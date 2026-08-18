@@ -1,0 +1,22 @@
+---
+import Gallery from './Gallery.astro';
+import type { GallerySection } from '../lib/content';
+
+interface Props {
+  section: GallerySection;
+}
+
+const { section } = Astro.props;
+// Odd indices are the backticked folder names in the placeholder intro.
+const introParts = section.intro ? section.intro.split(/`([^`]+)`/g) : [];
+---
+
+<h1 class="section-title">{section.title}</h1>
+{
+  section.intro && (
+    <p class="section-intro">
+      {introParts.map((part, i) => (i % 2 === 1 ? <code>{part}</code> : part))}
+    </p>
+  )
+}
+<Gallery section={section} />

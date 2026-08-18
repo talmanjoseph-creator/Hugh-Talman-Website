@@ -1,0 +1,74 @@
+---
+import { Image, getImage } from 'astro:assets';
+import { PLACEHOLDER } from '../config';
+import type { GallerySection } from '../lib/content';
+import Lightbox from './Lightbox';
+
+interface Props {
+  section: GallerySection;
+}
+
+const { section } = Astro.props;
+const total = section.total;
+
+const slides = await Promise.all(
+  section.frames.map(async (frame) => ({
+    number: frame.number,
+    total,
+    title: frame.title,
+    year: frame.year,
+    location: frame.location,
+    aspect: frame.aspect,
+    alt: frame.alt,
+    src: frame.src ? (await getImage({ src: frame.src, width: 1800, format: 'webp' })).src : null,
+  })),
+);
+
+function label(frame: (typeof section.frames)[number]) {
+  const meta = [frame.title, frame.year, frame.location].filter(Boolean).join(', ');
+  return `Open ${meta} — frame ${frame.number} of ${total}`;
+}
+
+function frameNumber(n: number) {
+  return `Frame ${String(n).padStart(2, '0')} of ${total}`;
+}
+---
+
+<Lightbox client:visible slides={slides} placeholder={PLACEHOLDER}>
+  <ul class="gallery">
+    {
+      section.frames.map((frame, i) => (
+        <li>
+          <figure class="figure">
+            <button
+              type="button"
+              class="frame-button"
+              data-lightbox-index={i}
+              aria-label={label(frame)}
+            >
+              {frame.src ? (
+                <div class="frame frame--image">
+                  <Image
+                    src={frame.src}
+                    alt={frame.alt}
+                    widths={[400, 700, 1000]}
+                    sizes="(min-width: 1024px) 30vw, 92vw"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+              ) : (
+                <div class="frame" style={`aspect-ratio: ${frame.aspect}`} />
+              )}
+            </button>
+            <figcaption class="caption">
+              <span class="caption__title">{frame.title}</span>
+              <span>{[frame.year, frame.location].filter(Boolean).join(' · ')}</span>
+              {PLACEHOLDER && <span>{frameNumber(frame.number)}</span>}
+            </figcaption>
+          </figure>
+        </li>
+      ))
+    }
+  </ul>
+</Lightbox>

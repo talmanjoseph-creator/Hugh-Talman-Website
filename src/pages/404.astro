@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+
+const description = 'That page could not be found.';
+---
+
+<Base title="Not found" description={description}>
+  <div class="notfound">
+    <h1 class="section-title">Not found</h1>
+    <p>
+      That page does not exist. Try <a href="/">Selected Work</a> or use the section list.
+    </p>
+  </div>
+</Base>

@@ -1,0 +1,56 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { getAbout } from '../lib/content';
+import { CONTACT_EMAIL, SITE } from '../config';
+
+const about = getAbout();
+---
+
+<Base title={about.title} current={about.slug} description={`About ${SITE.name}, photographer.`}>
+  <div class="about">
+    <div>
+      {
+        about.portrait ? (
+          <Image
+            src={about.portrait}
+            alt={`Portrait of ${SITE.name}`}
+            widths={[400, 800]}
+            sizes="(min-width: 1024px) 38vw, 92vw"
+            loading="eager"
+          />
+        ) : (
+          <div class="about__portrait" />
+        )
+      }
+    </div>
+
+    <div class="about__body">
+      <h1 class="section-title">{about.title}</h1>
+      {about.bio.map((paragraph) => <p>{paragraph}</p>)}
+      {about.bioNote && <p class="about__note">{about.bioNote}</p>}
+
+      <h2>Exhibitions &amp; publications</h2>
+      <div class="timeline">
+        {
+          about.exhibitions.map((group) => (
+            <div class="timeline__group">
+              <p class="timeline__decade">{group.decade}</p>
+              <ul class="timeline__entries">
+                {group.entries.map((entry) => (
+                  <li>{entry}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+
+      <h2>Contact</h2>
+      <div class="contact">
+        <p>For prints, licensing, or exhibitions:</p>
+        <p><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
+      </div>
+    </div>
+  </div>
+</Base>
