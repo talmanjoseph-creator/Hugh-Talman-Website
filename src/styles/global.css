@@ -1,10 +1,10 @@
 :root {
-  --paper: #fbfaf7;
-  --ink: #171717;
-  --ink-soft: #5a5a57;
-  --rule: #e4e2dc;
-  --frame: #d8d6d0;
-  --frame-deep: #c7c5bf;
+  --paper: #ffffff;
+  --ink: #111111;
+  --ink-soft: #555555;
+  --rule: #e8e8e8;
+  --frame: #e2e2e2;
+  --frame-deep: #d0d0d0;
 
   --font-display: 'Newsreader', Georgia, serif;
   --font-body: 'Inter', system-ui, sans-serif;

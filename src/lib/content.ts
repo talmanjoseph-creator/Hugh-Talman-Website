@@ -117,31 +117,11 @@ function seeded(seed: string): () => number {
   };
 }
 
-const RATIOS: Array<{ aspect: number; share: number }> = [
-  { aspect: 3 / 2, share: 0.4 },
-  { aspect: 2 / 3, share: 0.32 },
-  { aspect: 1, share: 0.14 },
-  { aspect: 4 / 5, share: 0.14 },
-];
-
 /**
- * Fill a bag to the section's exact proportions, then shuffle it, so every
- * section reads as a mixed edit instead of drifting all-landscape by chance.
+ * Fixed cycle rather than a random draw: no two neighbours share a ratio,
+ * including where the cycle wraps, and every section opens on a mixed row.
  */
-function shuffledAspects(count: number, random: () => number): number[] {
-  const bag: number[] = [];
-  for (const ratio of RATIOS) {
-    bag.push(...Array<number>(Math.round(ratio.share * count)).fill(ratio.aspect));
-  }
-  while (bag.length < count) bag.push(3 / 2);
-  bag.length = count;
-
-  for (let i = bag.length - 1; i > 0; i--) {
-    const j = Math.floor(random() * (i + 1));
-    [bag[i], bag[j]] = [bag[j] as number, bag[i] as number];
-  }
-  return bag;
-}
+const ASPECT_CYCLE = [3 / 2, 2 / 3, 1, 4 / 5, 3 / 2, 2 / 3, 3 / 2, 4 / 5, 1, 2 / 3];
 
 const LOCATIONS = [
   'New York',
@@ -176,10 +156,9 @@ function buildPlaceholderFrames(data: RawSection): Frame[] {
   const count = data.count ?? 24;
   const [from, to] = data.years ?? [1963, 2024];
   const random = seeded(data.slug);
-  const aspects = shuffledAspects(count, random);
 
   return Array.from({ length: count }, (_, i) => {
-    const aspect = aspects[i] as number;
+    const aspect = ASPECT_CYCLE[i % ASPECT_CYCLE.length] as number;
     const year = from + Math.floor(random() * (to - from + 1));
     const location = LOCATIONS[Math.floor(random() * LOCATIONS.length)] as string;
 

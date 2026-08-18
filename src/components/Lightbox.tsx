@@ -20,10 +20,10 @@ interface Props {
 }
 
 const rootStyle: NonNullable<SlotStyles['root']> = {
-  '--yarl__color_backdrop': 'rgba(251, 250, 247, 0.96)',
-  '--yarl__color_button': '#5a5a57',
-  '--yarl__color_button_active': '#171717',
-  '--yarl__color_button_disabled': '#c7c5bf',
+  '--yarl__color_backdrop': 'rgba(255, 255, 255, 0.96)',
+  '--yarl__color_button': '#555555',
+  '--yarl__color_button_active': '#111111',
+  '--yarl__color_button_disabled': '#d0d0d0',
 };
 
 function caption(meta: FrameMeta, placeholder: boolean) {
