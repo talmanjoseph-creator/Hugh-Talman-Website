@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import TitleReveal from '../components/TitleReveal.astro';
 import { getAbout } from '../lib/content';
 import { CONTACT_EMAIL, SITE } from '../config';
 
@@ -15,7 +16,8 @@ const about = getAbout();
           <Image
             src={about.portrait}
             alt={`Portrait of ${SITE.name}`}
-            widths={[400, 800]}
+            widths={[400, 800, 1333]}
+            quality={85}
             sizes="(min-width: 1024px) 38vw, 92vw"
             loading="eager"
           />
@@ -53,4 +55,6 @@ const about = getAbout();
       </div>
     </div>
   </div>
+
+  <TitleReveal />
 </Base>

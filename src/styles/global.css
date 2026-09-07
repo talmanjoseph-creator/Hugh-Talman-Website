@@ -23,6 +23,7 @@
 
 html {
   background: var(--paper);
+  color-scheme: light;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -221,6 +222,7 @@ a {
   line-height: 1;
   letter-spacing: -0.01em;
   margin: 0;
+  overflow: hidden;
 }
 
 .section-intro {
@@ -473,6 +475,50 @@ a {
 .lightbox-caption strong {
   color: var(--ink);
   font-weight: 400;
+}
+
+@keyframes htPageOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes htPageIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes htPageOutBack {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@keyframes htPageInBack {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

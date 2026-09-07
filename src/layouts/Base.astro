@@ -1,8 +1,20 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import { PLACEHOLDER, SITE } from '../config';
 import Banner from '../components/Banner.astro';
 import Nav from '../components/Nav.astro';
 import '../styles/global.css';
+
+const pageFade = {
+  forwards: {
+    old: { name: 'htPageOut', duration: '300ms', easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fillMode: 'forwards' },
+    new: { name: 'htPageIn', duration: '300ms', easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fillMode: 'backwards' },
+  },
+  backwards: {
+    old: { name: 'htPageOutBack', duration: '300ms', easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fillMode: 'forwards' },
+    new: { name: 'htPageInBack', duration: '300ms', easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fillMode: 'backwards' },
+  },
+};
 
 interface Props {
   title: string;
@@ -25,6 +37,7 @@ const ogImage = new URL('/og.png', Astro.site ?? SITE.url).href;
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#ffffff" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE.name} />
@@ -43,13 +56,15 @@ const ogImage = new URL('/og.png', Astro.site ?? SITE.url).href;
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap&subset=latin"
     />
+
+    <ClientRouter />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     {PLACEHOLDER && <Banner />}
     <div class="shell">
       <Nav current={current} />
-      <main id="main">
+      <main id="main" transition:animate={pageFade}>
         <slot />
       </main>
     </div>

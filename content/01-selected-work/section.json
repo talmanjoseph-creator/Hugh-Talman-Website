@@ -6,5 +6,14 @@
   "period": "across the whole archive",
   "years": [1963, 2024],
   "intro": "",
-  "photos": []
+  "photos": [
+    { "file": "preview-01.jpg", "title": "Untitled" },
+    { "file": "preview-02.jpg", "title": "Untitled" },
+    { "file": "preview-03.jpg", "title": "Untitled" },
+    { "file": "preview-04.jpg", "title": "Untitled" },
+    { "file": "preview-05.jpg", "title": "Untitled" },
+    { "file": "preview-06.jpg", "title": "Untitled" },
+    { "file": "preview-07.jpg", "title": "Untitled" },
+    { "file": "preview-08.jpg", "title": "Untitled" }
+  ]
 }

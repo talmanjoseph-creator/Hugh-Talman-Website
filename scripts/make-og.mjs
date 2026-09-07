@@ -4,13 +4,13 @@ import { writeFileSync } from 'node:fs';
 import sharp from 'sharp';
 
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
-  <rect width="1200" height="630" fill="#FBFAF7"/>
-  <rect x="80" y="80" width="1040" height="1" fill="#E4E2DC"/>
-  <rect x="80" y="549" width="1040" height="1" fill="#E4E2DC"/>
+  <rect width="1200" height="630" fill="#FFFFFF"/>
+  <rect x="80" y="80" width="1040" height="1" fill="#E8E8E8"/>
+  <rect x="80" y="549" width="1040" height="1" fill="#E8E8E8"/>
   <text x="80" y="336" font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
-        font-size="46" font-weight="500" letter-spacing="8.3" fill="#171717">HUGH TALMAN</text>
+        font-size="46" font-weight="500" letter-spacing="8.3" fill="#111111">HUGH TALMAN</text>
   <text x="80" y="392" font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
-        font-size="26" fill="#5A5A57">Photographs, 1960s to now</text>
+        font-size="26" fill="#555555">Photographs, 1960s to now</text>
 </svg>`;
 
 const png = await sharp(Buffer.from(svg)).png().toBuffer();

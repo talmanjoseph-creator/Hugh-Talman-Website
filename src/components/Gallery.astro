@@ -20,7 +20,7 @@ const slides = await Promise.all(
     location: frame.location,
     aspect: frame.aspect,
     alt: frame.alt,
-    src: frame.src ? (await getImage({ src: frame.src, width: 1800, format: 'webp' })).src : null,
+    src: frame.src ? (await getImage({ src: frame.src, width: 1800, format: 'webp', quality: 85 })).src : null,
   })),
 );
 
@@ -51,8 +51,9 @@ function frameNumber(n: number) {
                   <Image
                     src={frame.src}
                     alt={frame.alt}
-                    widths={[400, 700, 1000]}
+                    widths={[400, 800, 1200]}
                     sizes="(min-width: 1024px) 30vw, 92vw"
+                    quality={85}
                     loading="lazy"
                     decoding="async"
                   />
