@@ -1,5 +1,6 @@
 ---
 import Gallery from './Gallery.astro';
+import TitleReveal from './TitleReveal.astro';
 import type { GallerySection } from '../lib/content';
 
 interface Props {
@@ -20,3 +21,4 @@ const introParts = section.intro ? section.intro.split(/`([^`]+)`/g) : [];
   )
 }
 <Gallery section={section} />
+<TitleReveal />

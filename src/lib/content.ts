@@ -174,6 +174,22 @@ function buildPlaceholderFrames(data: RawSection): Frame[] {
   });
 }
 
+function photoFrame(photo: PhotoEntry, src: ImageMetadata, number: number): Frame {
+  const title = photo.title ?? 'Untitled';
+  const year = photo.year ?? null;
+  const location = photo.location ?? null;
+
+  return {
+    number,
+    title,
+    year,
+    location,
+    aspect: src.width / src.height,
+    alt: [title, year, location].filter(Boolean).join(', '),
+    src,
+  };
+}
+
 function buildRealFrames(data: RawSection, folder: string): Frame[] {
   const photos = data.photos ?? [];
 
@@ -182,28 +198,37 @@ function buildRealFrames(data: RawSection, folder: string): Frame[] {
     if (!src) {
       throw new Error(`content/${folder}/${photo.file} is listed in section.json but missing on disk.`);
     }
-
-    const title = photo.title ?? 'Untitled';
-    const year = photo.year ?? null;
-    const location = photo.location ?? null;
-
-    return {
-      number: i + 1,
-      title,
-      year,
-      location,
-      aspect: src.width / src.height,
-      alt: [title, year, location].filter(Boolean).join(', '),
-      src,
-    };
+    return photoFrame(photo, src, i + 1);
   });
+}
+
+/**
+ * Keep the full grey-frame count, but swap in any real files listed in photos[].
+ * Extra listings beyond the section's slot count are ignored.
+ */
+function overlayPreviewFrames(data: RawSection, folder: string): Frame[] {
+  const frames = buildPlaceholderFrames(data);
+  const photos = data.photos ?? [];
+
+  photos.slice(0, frames.length).forEach((photo, i) => {
+    const src = resolveImage(folder, photo.file);
+    if (!src) {
+      throw new Error(`content/${folder}/${photo.file} is listed in section.json but missing on disk.`);
+    }
+    const overlaid = photoFrame(photo, src, i + 1);
+    frames[i] = overlaid;
+  });
+
+  return frames;
 }
 
 export function getGallerySections(): GallerySection[] {
   return readRawSections()
     .filter(({ data }) => !data.bio)
     .flatMap(({ folder, data }) => {
-      const frames = PLACEHOLDER ? buildPlaceholderFrames(data) : buildRealFrames(data, folder);
+      const frames = PLACEHOLDER
+        ? overlayPreviewFrames(data, folder)
+        : buildRealFrames(data, folder);
       // A section with no photographs yet stays out of the site entirely.
       if (!PLACEHOLDER && frames.length === 0) return [];
 
@@ -227,7 +252,7 @@ export function getAbout(): AboutSection {
   if (!entry) throw new Error('content/06-about/section.json is missing.');
 
   const { folder, data } = entry;
-  const portrait = data.portrait && !PLACEHOLDER ? resolveImage(folder, data.portrait) : null;
+  const portrait = data.portrait ? resolveImage(folder, data.portrait) : null;
 
   return {
     slug: data.slug,

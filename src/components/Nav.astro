@@ -10,7 +10,7 @@ const { current } = Astro.props;
 const items = getNav();
 ---
 
-<header class="masthead">
+<header class="masthead" transition:persist="nav">
   <a class="wordmark" href="/">{SITE.wordmark}</a>
   <nav aria-label="Sections">
     <ul class="nav__list">
@@ -30,3 +30,19 @@ const items = getNav();
     </ul>
   </nav>
 </header>
+
+<script>
+  // The nav element persists across view transitions, so its current-section
+  // marker has to be moved by hand after each navigation.
+  const trim = (pathname: string) =>
+    pathname !== '/' && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+
+  document.addEventListener('astro:page-load', () => {
+    const here = trim(location.pathname);
+
+    document.querySelectorAll<HTMLAnchorElement>('.nav__link').forEach((link) => {
+      if (trim(new URL(link.href).pathname) === here) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+  });
+</script>

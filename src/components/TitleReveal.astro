@@ -1,0 +1,39 @@
+---
+// Word-by-word reveal for the section title. Include only on pages that render
+// an h1.section-title, so GSAP is never shipped to a page that cannot use it.
+---
+
+<script>
+  import gsap from 'gsap';
+  import { SplitText } from 'gsap/SplitText';
+
+  gsap.registerPlugin(SplitText);
+
+  let firstLoad = true;
+
+  document.addEventListener('astro:page-load', () => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const title = document.querySelector<HTMLElement>('h1.section-title');
+    if (!title) return;
+
+    // After a client-side navigation the main column is still fading in for
+    // 300ms. Hold the title until that fade finishes, otherwise the reveal
+    // happens while the heading is still at opacity 0.
+    const delay = firstLoad ? 0 : 0.3;
+    firstLoad = false;
+
+    const split = new SplitText(title, { type: 'words' });
+    gsap.set(split.words, { y: '0.6em', opacity: 0 });
+
+    gsap.to(split.words, {
+      y: 0,
+      opacity: 1,
+      duration: 0.5,
+      stagger: 0.05,
+      delay,
+      ease: 'power3.out',
+      onComplete: () => split.revert(),
+    });
+  });
+</script>
