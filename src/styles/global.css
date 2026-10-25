@@ -35,21 +35,11 @@ body {
   font-size: 17px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
-  animation: fade-in 250ms ease-out both;
 }
 
 @media (min-width: 1024px) {
   body {
     font-size: 18px;
-  }
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }
 
@@ -275,6 +265,7 @@ a {
 .frame {
   width: 100%;
   background: var(--frame);
+  overflow: hidden;
   transition: background-color 150ms ease;
 }
 
@@ -334,6 +325,10 @@ a {
   width: 100%;
   aspect-ratio: 4 / 5;
   background: var(--frame);
+}
+
+.motion-frame {
+  overflow: hidden;
 }
 
 .about__body p {
@@ -521,11 +516,15 @@ a {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  body {
-    animation: none;
-  }
+/* Hidden until the motion controller reveals them. The class is added only when
+   motion is allowed, so reduced-motion and no-JS visits stay fully visible. */
+html.motion .figure,
+html.motion .motion-block,
+html.motion .motion-frame {
+  opacity: 0;
+}
 
+@media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {

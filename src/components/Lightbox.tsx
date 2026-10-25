@@ -64,7 +64,7 @@ export default function Lightbox({ slides, placeholder, children }: Props) {
         styles={{ root: rootStyle, button: { filter: 'none' }, icon: { filter: 'none' } }}
         render={{
           buttonClose: () => (
-            <button type="button" className="lightbox-close" onClick={close}>
+            <button key="close" type="button" className="lightbox-close" onClick={close}>
               Close
             </button>
           ),

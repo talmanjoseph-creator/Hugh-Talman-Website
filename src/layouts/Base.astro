@@ -4,6 +4,7 @@ import { PLACEHOLDER, SITE } from '../config';
 import Banner from '../components/Banner.astro';
 import Nav from '../components/Nav.astro';
 import '../styles/global.css';
+import 'lenis/dist/lenis.css';
 
 const pageFade = {
   forwards: {
@@ -58,6 +59,11 @@ const ogImage = new URL('/og.png', Astro.site ?? SITE.url).href;
     />
 
     <ClientRouter />
+    <script is:inline>
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('motion');
+      }
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -68,5 +74,10 @@ const ogImage = new URL('/og.png', Astro.site ?? SITE.url).href;
         <slot />
       </main>
     </div>
+    <script>
+      import { initMotion } from '../scripts/motion';
+
+      initMotion();
+    </script>
   </body>
 </html>
